@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "map-app-mvp",
     "name": "map-app-mvp",
     "slug": "map-app-mvp",
     "version": "1.0.0",
