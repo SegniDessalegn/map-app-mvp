@@ -20,7 +20,7 @@ export default function MapScreen() {
     const fetchCities = async () => {
       try {
         const res = await fetch(
-          "https://api.cityapi.org/v1/cities?search=ethiopia"
+          "https://api.cityapi.org/v1/cities?country=ET&population_min=100000"
         );
         const json = await res.json();
 
@@ -55,8 +55,8 @@ export default function MapScreen() {
     <MapView
       style={{ flex: 1 }}
       initialRegion={{
-        latitude: 9.03,
-        longitude: 38.74,
+        latitude: 9.08333,
+        longitude: 36.55,
         latitudeDelta: 5,
         longitudeDelta: 5,
       }}
