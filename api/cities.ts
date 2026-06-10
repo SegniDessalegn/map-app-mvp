@@ -1,8 +1,10 @@
 import { City } from "../types";
 
+const baseURL = "https://api.cityapi.org/v1"
+
 export const fetchCities = async (): Promise<City[]> => {
   const res = await fetch(
-    "https://api.cityapi.org/v1/cities?country=ET&population_min=100000"
+    `${baseURL}/cities?country=ET&population_min=100000`
   );
 
   const json = await res.json();
@@ -19,7 +21,7 @@ export const fetchCities = async (): Promise<City[]> => {
 
 export const fetchCity = async (id: string): Promise<City> => {
   const res = await fetch(
-    `https://api.cityapi.org/v1/cities/${id}`
+    `${baseURL}/cities/${id}`
   );
 
   const json = await res.json();
