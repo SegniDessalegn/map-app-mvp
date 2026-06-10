@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -7,42 +7,13 @@ import {
   ScrollView,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-
-type City = {
-  name: string;
-  country_code: string;
-  population: number;
-  elevation: number | null;
-  timezone_id: string;
-  latitude: number;
-  longitude: number;
-};
+import { useCity } from "../../hooks/city/use-city";
 
 export default function LocationDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { data: city, isLoading, error } = useCity(id);
 
-  const [city, setCity] = useState<City | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!id) return;
-
-    const fetchCity = async () => {
-      try {
-        const res = await fetch(`https://api.cityapi.org/v1/cities/${id}`);
-        const json = await res.json();
-        setCity(json.data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCity();
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#4A90E2" />
@@ -51,7 +22,7 @@ export default function LocationDetail() {
     );
   }
 
-  if (!city) {
+  if (error || !city) {
     return (
       <View style={styles.center}>
         <Text style={styles.notFoundText}>City not found</Text>
@@ -60,48 +31,54 @@ export default function LocationDetail() {
   }
 
   return (
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <Text style={styles.cityName}>{city.name}</Text>
-          <View style={styles.countryContainer}>
-            <Text style={styles.countryCode}>{city.country_code}</Text>
-          </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.header}>
+        <Text style={styles.cityName}>{city.name}</Text>
+        <View style={styles.countryContainer}>
+          <Text style={styles.countryCode}>{city.country}</Text>
         </View>
+      </View>
 
-        <View style={styles.card}>
-          <Text style={styles.cardLabel}>Population</Text>
-          <Text style={styles.cardValue}>
-            {city.population.toLocaleString()}
-          </Text>
-          <Text style={styles.cardUnit}>people</Text>
-        </View>
+      <View style={styles.card}>
+        <Text style={styles.cardLabel}>Population</Text>
+        <Text style={styles.cardValue}>
+          {city.population?.toLocaleString?.() ?? "—"}
+        </Text>
+        <Text style={styles.cardUnit}>people</Text>
+      </View>
 
-        <View style={styles.infoGroup}>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Coordinates</Text>
-            <Text style={styles.infoValue}>
-              {city.latitude}°, {city.longitude}°
-            </Text>
-          </View>
-
-          <View style={styles.divider} />
-
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Time Zone</Text>
-            <Text style={styles.infoValue}>{city.timezone_id}</Text>
-          </View>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardLabel}>Elevation</Text>
-          <Text style={styles.cardValue}>
-            {city.elevation ? `${city.elevation.toLocaleString()}` : "—"}
-          </Text>
-          <Text style={styles.cardUnit}>
-            {city.elevation ? "meters above sea level" : "not available"}
+      <View style={styles.infoGroup}>
+        <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>Coordinates</Text>
+          <Text style={styles.infoValue}>
+            {city.latitude}°, {city.longitude}°
           </Text>
         </View>
-      </ScrollView>
+
+        <View style={styles.divider} />
+
+        <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>Time Zone</Text>
+          <Text style={styles.infoValue}>
+            {(city as any).timezone_id ?? "—"}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.cardLabel}>Elevation</Text>
+        <Text style={styles.cardValue}>
+          {(city as any).elevation
+            ? (city as any).elevation.toLocaleString()
+            : "—"}
+        </Text>
+        <Text style={styles.cardUnit}>
+          {(city as any).elevation
+            ? "meters above sea level"
+            : "not available"}
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
 
