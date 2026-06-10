@@ -71,7 +71,7 @@ export default function MapScreen() {
           title={city.name}
           description={city.country}
           onPress={() =>
-            router.push(`/location/${city.id}?name=${city.name}&country=${city.country}`)
+            router.push(`/location/${city.id}`)
           }
         />
       ))}
