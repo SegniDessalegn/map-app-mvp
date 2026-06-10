@@ -1,8 +1,8 @@
 import React from "react";
-import MapView, { Marker } from "react-native-maps";
 import { View, ActivityIndicator, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useCities } from "../hooks/city/use-cities";
+import Map from "../components/Map";
 
 export default function MapScreen() {
   const router = useRouter();
@@ -24,28 +24,25 @@ export default function MapScreen() {
     );
   }
 
+  const markers =
+    cities?.map((city) => ({
+      id: city.id.toString(),
+      latitude: city.latitude,
+      longitude: city.longitude,
+      title: city.name,
+      description: city.country,
+    })) ?? [];
+
   return (
-    <MapView
-      style={{ flex: 1 }}
+    <Map
       initialRegion={{
         latitude: 9.08333,
         longitude: 36.55,
         latitudeDelta: 5,
         longitudeDelta: 5,
       }}
-    >
-      {cities?.map((city) => (
-        <Marker
-          key={city.id}
-          coordinate={{
-            latitude: city.latitude,
-            longitude: city.longitude,
-          }}
-          title={city.name}
-          description={city.country}
-          onPress={() => router.push(`/location/${city.id}`)}
-        />
-      ))}
-    </MapView>
+      markers={markers}
+      onMarkerPress={(marker) => router.push(`/location/${marker.id}`)}
+    />
   );
 }
