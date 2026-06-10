@@ -1,6 +1,6 @@
 import React from "react";
 import MapView, { Marker } from "react-native-maps";
-import { MapProps } from "./Map.types";
+import { MapProps } from "../types";
 
 export default function Map({ initialRegion, markers, onMarkerPress }: MapProps) {
   return (

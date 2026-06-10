@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-import { MapProps } from "./Map.types";
+import { MapProps } from "../types";
 
 let isLoaded = false;
 let isLoading = false;
