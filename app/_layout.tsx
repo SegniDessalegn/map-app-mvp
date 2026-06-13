@@ -1,10 +1,10 @@
 import { Stack } from "expo-router";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "../lib/query-client";
+import { Provider } from 'react-redux'
+import { store } from '../lib/store'
 
 export default function Layout() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
       <Stack screenOptions={{ headerTitleAlign: "center" }}>
         <Stack.Screen
           name="index"
@@ -21,6 +21,6 @@ export default function Layout() {
           }}
         />
       </Stack>
-    </QueryClientProvider>
+    </Provider>
   );
 }

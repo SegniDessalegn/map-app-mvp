@@ -7,11 +7,11 @@ import {
   ScrollView,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useCity } from "../../hooks/city/use-city";
+import { useGetCityQuery } from "../../services/city";
 
 export default function LocationDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: city, isLoading, error } = useCity(id);
+  const { data: city, isLoading, error } = useGetCityQuery(id);
 
   if (isLoading) {
     return (
@@ -60,7 +60,7 @@ export default function LocationDetail() {
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>Time Zone</Text>
           <Text style={styles.infoValue}>
-            {(city as any).timezone_id ?? "—"}
+            {city.timezone ?? "—"}
           </Text>
         </View>
       </View>
@@ -68,14 +68,10 @@ export default function LocationDetail() {
       <View style={styles.card}>
         <Text style={styles.cardLabel}>Elevation</Text>
         <Text style={styles.cardValue}>
-          {(city as any).elevation
-            ? (city as any).elevation.toLocaleString()
-            : "—"}
+          {city.elevation ?? "—"}
         </Text>
         <Text style={styles.cardUnit}>
-          {(city as any).elevation
-            ? "meters above sea level"
-            : "not available"}
+          {city.elevation ? "meters above sea level" : "not available"}
         </Text>
       </View>
     </ScrollView>

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, ActivityIndicator, Text } from "react-native";
 import { useRouter } from "expo-router";
-import { useCities } from "../hooks/city/use-cities";
 import Map from "../components/Map";
 import { MapMarker } from "../types";
+import { useGetCitiesQuery } from "../services/city";
 
 export default function MapScreen() {
   const router = useRouter();
-  const { data: cities, isLoading, error } = useCities();
+  const { data: cities, isLoading, error } = useGetCitiesQuery();
   const [location, setLocation] = useState({
     latitude: 9.08333,
     longitude: 36.55,

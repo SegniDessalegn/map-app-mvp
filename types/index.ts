@@ -5,6 +5,8 @@ export interface City {
     latitude: number;
     longitude: number;
     population: number;
+    timezone: number;
+    elevation: number;
 }
 
 export interface MapMarker {
