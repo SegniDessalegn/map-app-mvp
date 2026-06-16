@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { View, ActivityIndicator, Text } from "react-native";
 import { useRouter } from "expo-router";
 import Map from "../components/Map";
-import { MapMarker } from "../types";
+import { City } from "../types";
 import { useGetCitiesQuery } from "../services/city";
 
 export default function MapScreen() {
   const router = useRouter();
   const { data: cities, isLoading, error } = useGetCitiesQuery();
   const [location, setLocation] = useState({
-    latitude: 9.08333,
-    longitude: 36.55,
+    latitude: 9.02497,
+    longitude: 38.74689,
     latitudeDelta: 5,
     longitudeDelta: 5,
   })
@@ -31,16 +31,7 @@ export default function MapScreen() {
     );
   }
 
-  const markers =
-    cities?.map((city) => ({
-      id: city.id.toString(),
-      latitude: city.latitude,
-      longitude: city.longitude,
-      title: city.name,
-      description: city.country,
-    })) ?? [];
-
-  const handleMarkerPress = (marker: MapMarker) => {
+  const handleMarkerPress = (marker: City) => {
     setLocation({
       latitude: marker.latitude,
       longitude: marker.longitude,
@@ -53,7 +44,7 @@ export default function MapScreen() {
   return (
     <Map
       initialRegion={location}
-      markers={markers}
+      markers={cities!}
       onMarkerPress={handleMarkerPress}
     />
   );

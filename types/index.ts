@@ -9,14 +9,6 @@ export interface City {
     elevation: number;
 }
 
-export interface MapMarker {
-  id: string;
-  latitude: number;
-  longitude: number;
-  title: string;
-  description?: string;
-}
-
 export interface MapProps {
   initialRegion: {
     latitude: number;
@@ -24,6 +16,6 @@ export interface MapProps {
     latitudeDelta: number;
     longitudeDelta: number;
   };
-  markers: MapMarker[];
-  onMarkerPress: (marker: MapMarker) => void;
+  markers: City[];
+  onMarkerPress: (marker: City) => void;
 }

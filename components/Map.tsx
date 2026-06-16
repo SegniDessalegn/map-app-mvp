@@ -15,8 +15,8 @@ export default function Map({ initialRegion, markers, onMarkerPress }: MapProps)
             latitude: marker.latitude,
             longitude: marker.longitude,
           }}
-          title={marker.title}
-          description={marker.description}
+          title={marker.name}
+          description={marker.country}
           onPress={() => onMarkerPress(marker)}
         />
       ))}
